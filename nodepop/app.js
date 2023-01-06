@@ -44,12 +44,19 @@ app.use(function(err, req, res, next) {
     err.message = `Error in ${errorInfo.location}, param "${errorInfo.param}" ${errorInfo.msg}`
   }
 
+  res.status(err.status || 500);
+
+  //Respuesta JSON para API
+  if(req.originalUrl.startsWith('/api/')) {
+    res.json({error: err.message});
+    return;
+  }
+
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
-  res.status(err.status || 500);
   res.render('error');
 });
 
