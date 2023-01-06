@@ -9,7 +9,24 @@ const router = express.Router();
 // Get /api/anuncios
 router.get('/', async(req, res, next) => {
     try {
-        const anuncios = await Anuncio.find();
+        const nombre = req.query.nombre;
+        const precio = req.query.precio;
+        const venta = req.query.venta;
+        const filtro = {};
+
+        if (nombre) {
+            filtro.nombre = nombre;
+        }
+
+        if (precio) {
+            filtro.precio = precio;
+        }
+
+        if (venta) {
+            filtro.venta = venta;
+        }
+
+        const anuncios = await Anuncio.lista(filtro);
         res.json({results: anuncios});
     } catch (err) {
         next(err);
@@ -23,7 +40,7 @@ router.get('/:id', async(req, res, next) => {
         const articulo = await Anuncio.findById(id);
 
         res.json({result: articulo});
-    } catch (error) {
+    } catch (err) {
         next(err);
     }
 })
