@@ -1,11 +1,12 @@
 'use strict'
 
 const express = require('express');
+const createError = require('http-errors');
 const Anuncio = require('../../models/Anuncio');
 const router = express.Router();
-const Articulo = require('../../models/Anuncio');
 
-// Get ./api/anuncios
+
+// Get /api/anuncios
 router.get('/', async(req, res, next) => {
     try {
         const anuncios = await Anuncio.find();
@@ -15,7 +16,7 @@ router.get('/', async(req, res, next) => {
     }
 });
 
-//Get ./api/agentes/(id)
+//Buscar un anuncio
 router.get('/:id', async(req, res, next) => {
     try {
         const id = req.params.id;
@@ -27,7 +28,7 @@ router.get('/:id', async(req, res, next) => {
     }
 })
 
-//Actualizar anuncio. PUT /api/agentes/(id)(body)
+//Actualizar anuncio
 router.put('/:id', async(req, res, next) => {
     try {
         const id = req.params.id;
@@ -43,6 +44,36 @@ router.put('/:id', async(req, res, next) => {
     }
 })
 
+//Crear un anuncio
+router.post('/', async(req, res, next) => {
+    try {
+        const adData = req.body;
+        const anuncio = new Anuncio(adData);
+        const adSaved = await anuncio.save();
+
+        res.json({ result: adSaved});
+    } catch (err) {
+        next(err);
+    }
+})
+
+//Eliminar un anuncio
+router.delete('/:id', async(req, res, next) => {
+    try {
+        const id = req.params.id;
+        const anuncio = await Anuncio.findById(id);
+        
+        if(!anuncio){
+            return next(createError(404));
+        }
+        
+        await Anuncio.deleteOne({_id: id});
+
+        res.json();
+    } catch (err) {
+        next(err);
+    }
+})
 
 
 
