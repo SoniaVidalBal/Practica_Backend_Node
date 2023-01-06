@@ -14,6 +14,11 @@ router.get('/', async(req, res, next) => {
         const venta = req.query.venta;
         const filtro = {};
 
+        const skip = req.query.skip;
+        const limit = req.query.limit;
+
+        const fields = req.query.fields;
+
         if (nombre) {
             filtro.nombre = nombre;
         }
@@ -26,7 +31,7 @@ router.get('/', async(req, res, next) => {
             filtro.venta = venta;
         }
 
-        const anuncios = await Anuncio.lista(filtro);
+        const anuncios = await Anuncio.lista(filtro, skip, limit, fields);
         res.json({results: anuncios});
     } catch (err) {
         next(err);
