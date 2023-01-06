@@ -18,6 +18,10 @@ Start application in developer mode:
 npm run dev
 ```
 
+```sh
+npm run init-db
+```
+
 ## Api Documentation
 
 Advertisement list:
