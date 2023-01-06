@@ -29,3 +29,5 @@ GET /api/anuncios
     "name":"Iphone 7",
     "price":150
 }
+
+Se pueden aplicar filtros, búsquedas de campos en concreto, paginación y ordenar(por nombre, precio...)

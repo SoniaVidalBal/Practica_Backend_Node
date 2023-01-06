@@ -5,7 +5,6 @@ const createError = require('http-errors');
 const Anuncio = require('../../models/Anuncio');
 const router = express.Router();
 
-
 // Get /api/anuncios
 router.get('/', async(req, res, next) => {
     try {
@@ -19,6 +18,8 @@ router.get('/', async(req, res, next) => {
 
         const fields = req.query.fields;
 
+        const sort = req.query.sort;
+
         if (nombre) {
             filtro.nombre = nombre;
         }
@@ -31,7 +32,7 @@ router.get('/', async(req, res, next) => {
             filtro.venta = venta;
         }
 
-        const anuncios = await Anuncio.lista(filtro, skip, limit, fields);
+        const anuncios = await Anuncio.lista(filtro, skip, limit, fields, sort);
         res.json({results: anuncios});
     } catch (err) {
         next(err);
