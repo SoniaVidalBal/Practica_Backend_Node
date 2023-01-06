@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 require('./lib/connectMongoose');
+require('./routes/api/articulos');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -21,6 +22,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//Rutas de mi api
+app.use('/api/anuncios', require('./routes/api/articulos'))
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
@@ -31,6 +35,15 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
+
+  //Error de validación
+  if(err.array) {
+    err.status = 422;
+    const errorInfo = err.array({onlyFirstError: true})[0];
+    console.log(errorInfo);
+    err.message = `Error in ${errorInfo.location}, param "${errorInfo.param}" ${errorInfo.msg}`
+  }
+
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
