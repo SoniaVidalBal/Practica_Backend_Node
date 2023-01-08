@@ -26,9 +26,19 @@ router.get('/', async(req, res, next) => {
         }
 
         if (precio) {
-            filtro.precio = precio;
+            let range = precio.split('-');
+            if(range.length === 1) {
+                filtro.precio = precio;
+            } if (range.length === 2){
+                if (!range[0]) {
+                    filtro.precio = {$lte: (range[1])}
+                } if (!range[1]) {
+                    filtro.precio = {$gte: (range[0])}
+                } else {
+                filtro.precio = {$gte: (range[0]), $lte: (range[1])}
+                }
+            }
         }
-
         if (venta === "true") {
             filtro.venta = venta;
         } if (venta === "false") {
