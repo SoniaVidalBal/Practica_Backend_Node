@@ -1,4 +1,4 @@
-#NopdePop
+# NopdePop
 
 Deploy:
 
@@ -24,6 +24,13 @@ npm run init-db
 ```
 
 ## Api Documentation
+
+Basic Authentication to access the api
+
+```sh
+adminUser: KeepCoding
+password: Bootcamp
+```
 
 ### Advertisement list:
 
@@ -62,6 +69,6 @@ http://localhost:3000/api/anuncios?skip=0&limit=2
 Sort:
 http://localhost:3000/api/anuncios?sort=precio
 
-
+All together:
 http://localhost:3000/api/anuncios?tags=mobile&venta=false&nombre=ip&precio=50&start=0&limit=2&sort=precio
 ```
