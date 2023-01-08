@@ -61,6 +61,7 @@ Filters:
 http://localhost:3000/api/anuncios?nombre=guit
 http://localhost:3000/api/anuncios?venta=false
 http://localhost:3000/api/anuncios?precio=100
+http://localhost:3000/api/anuncios?precio=100-150
 http://localhost:3000/api/anuncios?tags=hogar
 
 Pagination:
