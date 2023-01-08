@@ -1,4 +1,3 @@
-
 const readline = require('readline');
 const Anuncio = require('./models/Anuncio');
 const anunciosIniciales = require('./models/anunciosinit.json');
