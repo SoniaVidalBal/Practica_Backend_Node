@@ -18,6 +18,7 @@ Start application in developer mode:
 npm run dev
 ```
 
+Load initial data to the database
 ```sh
 npm run init-db
 ```
@@ -27,11 +28,15 @@ npm run init-db
 Advertisement list:
 
 GET /api/anuncios
-{
-    "tags":[],
-    "_id":"63b7199ae5d144ee92f8b5cb",
-    "name":"Iphone 7",
-    "price":150
+```sh
+{ 
+    "nombre": "Iphone 7",
+    "venta": true,
+    "precio": 120,
+    "foto": "././images/Iphone7.png",
+    "tags": ["tech", "lifestyle", "electronica"]
 }
+```
+
 
 Se pueden aplicar filtros, búsquedas de campos en concreto, paginación y ordenar(por nombre, precio...)

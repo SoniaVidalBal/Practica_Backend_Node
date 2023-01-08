@@ -55,7 +55,8 @@ router.get('/tags', async(req, res, next) => {
             taglist.tags.forEach(tag => {
             if(tagsList.indexOf(tag) === -1){
                 tagsList.push(tag);
-        }})})
+            }})
+        })
         res.json({ Tags: tagsList });
     } catch (err) {
         next(err);
