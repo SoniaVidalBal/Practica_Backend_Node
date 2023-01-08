@@ -5,12 +5,13 @@ const createError = require('http-errors');
 const Anuncio = require('../../models/Anuncio');
 const router = express.Router();
 
-// Get /api/anuncios
+//Filtros, paginación y ordenación de productos
 router.get('/', async(req, res, next) => {
     try {
         const nombre = req.query.nombre;
         const precio = req.query.precio;
         const venta = req.query.venta;
+        const tags = req.query.tags;
         const filtro = {};
 
         const skip = req.query.skip;
@@ -21,15 +22,21 @@ router.get('/', async(req, res, next) => {
         const sort = req.query.sort;
 
         if (nombre) {
-            filtro.nombre = nombre;
+            filtro.nombre = new RegExp('^' + nombre, "i");
         }
 
         if (precio) {
             filtro.precio = precio;
         }
 
-        if (venta) {
+        if (venta === "true") {
             filtro.venta = venta;
+        } if (venta === "false") {
+            filtro.venta = venta;
+        }
+
+        if(tags){
+            filtro.tags = tags;
         }
 
         const anuncios = await Anuncio.lista(filtro, skip, limit, fields, sort);
@@ -39,33 +46,21 @@ router.get('/', async(req, res, next) => {
     }
 });
 
-//Buscar un anuncio
-router.get('/:id', async(req, res, next) => {
+//Listado de tags
+router.get('/tags', async(req, res, next) => {
     try {
-        const id = req.params.id;
-        const articulo = await Anuncio.findById(id);
-
-        res.json({result: articulo});
+        const tags = await Anuncio.listaTags();
+        const tagsList = [];
+        tags.forEach(taglist => {
+            taglist.tags.forEach(tag => {
+            if(tagsList.indexOf(tag) === -1){
+                tagsList.push(tag);
+        }})})
+        res.json({ Tags: tagsList });
     } catch (err) {
         next(err);
     }
-})
-
-//Actualizar anuncio
-router.put('/:id', async(req, res, next) => {
-    try {
-        const id = req.params.id;
-        const adData = req.body;
-        const adUpdate = await Anuncio.findOneAndUpdate({_id: id}, adData, {
-            new: true
-        });
-
-        res.json({ result: adUpdate });
-
-    } catch (err) {
-        next(err);
-    }
-})
+});
 
 //Crear un anuncio
 router.post('/', async(req, res, next) => {
@@ -79,25 +74,5 @@ router.post('/', async(req, res, next) => {
         next(err);
     }
 })
-
-//Eliminar un anuncio
-router.delete('/:id', async(req, res, next) => {
-    try {
-        const id = req.params.id;
-        const anuncio = await Anuncio.findById(id);
-        
-        if(!anuncio){
-            return next(createError(404));
-        }
-        
-        await Anuncio.deleteOne({_id: id});
-
-        res.json();
-    } catch (err) {
-        next(err);
-    }
-})
-
-
 
 module.exports = router;

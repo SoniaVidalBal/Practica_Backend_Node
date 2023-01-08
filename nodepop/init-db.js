@@ -2,6 +2,7 @@
 
 const dbConenction = require('./lib/connectMongoose');
 const Anuncio = require('./models/Anuncio');
+const anuncionIniciales = require('./models/anunciosinit.json');
 
 async function main() {
     await initAnuncios();
@@ -12,27 +13,8 @@ async function initAnuncios(){
     const deletion = await Anuncio.deleteMany();
     console.log(`Eliminados ${deletion.deletedCount} agentes.`);
 
-    const initial = await Anuncio.insertMany([
-        {nombre: 'Iphone 7',
-        venta: true,
-        precio: 120,
-        foto: '././images/Iphone7.png',
-        tags: ['tech', 'lifestyle', 'electronica']
-        },
-        {nombre: 'Vaso',
-        venta: true,
-        precio: 3,
-        foto: '././images/Vaso_cristal.jpg',
-        tags: ['hogar', 'lifestyle']
-        },
-        {nombre: 'Guitarra',
-        venta: false,
-        precio: 100,
-        foto: '././images/Guitarra_electrica.jpg',
-        tags: ['musica', 'electronica']
-        }
-    ]);
-    console.log(initial);
+    const initial = await Anuncio.insertMany(anuncionIniciales);
+    console.log(`Insertados ${initial.length} anuncios.`);
 }
 
 main().catch(err => console.log('Se ha producido un error:', err));

@@ -1,0 +1,26 @@
+[
+    { 
+    "nombre": "Iphone 7",
+    "venta": true,
+    "precio": 120,
+    "foto": "././images/Iphone7.png",
+    "tags": ["tech", "lifestyle", "electronica"]
+    },
+
+    {
+    "nombre": "Vaso",
+    "venta": true,
+    "precio": 3,
+    "foto": "././images/Vaso_cristal.jpg",
+    "tags": ["hogar", "lifestyle"]
+    },
+
+    {
+    "nombre": "Guitarra",
+    "venta": false,
+    "precio": 100,
+    "foto": "././images/Guitarra_electrica.jpg",
+    "tags": ["musica", "electronica"]
+    }
+]
+
